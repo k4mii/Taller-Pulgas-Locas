@@ -5,18 +5,23 @@
 package autonoma.pulgasLocas.elements;
 
 import java.awt.Graphics;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 
 /**
  *
  * @author marti
  */
 public class MutantFlea extends Flea {
-
+    private Image mutantFlea;
     private int hitsReceived;
 
     public MutantFlea(int x, int y, int height, int width,int step) {
         super(x, y, height, width,step);
         this.hitsReceived = 0;
+        
+        mutantFlea = new ImageIcon(getClass().getResource("/autonoma/pulgasLocas/images/PulgaMutante.png")).getImage();
+
     }
 
     public void registerHit(Battlefield battlefield) {
@@ -33,6 +38,6 @@ public class MutantFlea extends Flea {
 
     @Override
     public void paint(Graphics g) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        g.drawImage(mutantFlea, x, y, null);
     }
 }
