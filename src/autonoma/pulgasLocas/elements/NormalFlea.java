@@ -22,7 +22,10 @@ public class NormalFlea extends Flea {
 
     @Override
     public void detach(Battlefield battlefield) {
-        battlefield.remove(this);
+        battlefield.eliminarPulga(this);
+        battlefield.getPlayer().setPuntaje(
+        battlefield.getPlayer().getPuntaje() + 1
+        );
     }
 
     @Override

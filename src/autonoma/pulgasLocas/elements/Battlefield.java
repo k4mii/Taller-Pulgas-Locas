@@ -78,5 +78,8 @@ public  class Battlefield extends SpriteContainer{
             player.usarArma(battlefield, null); // sin punto necesario
         }
     }
+    public void eliminarPulga(Flea pulga) {
+    sprites.remove(pulga); // o el arreglo/lista que estés usando para almacenar las pulgas
+    }
 
 }
