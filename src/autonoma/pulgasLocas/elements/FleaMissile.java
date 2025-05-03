@@ -45,7 +45,7 @@ public class FleaMissile extends Weapon{
                 MutantFlea mutante = (MutantFlea) pulga;
 
                 NormalFlea nuevaPulga = new NormalFlea(
-                    mutante.getX(), mutante.getY(), mutante.getHeight(), mutante.getWidth()
+                    mutante.getX(), mutante.getY(), mutante.getHeight(), mutante.getWidth(),mutante.getStep()
                 );
                 nuevaPulga.setGraphicContainer(mutante.gameContainer); // si usas
 
