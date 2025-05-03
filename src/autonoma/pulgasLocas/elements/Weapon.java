@@ -4,10 +4,17 @@
  */
 package autonoma.pulgasLocas.elements;
 
+import java.awt.Point;
+
 /**
- *
- * @author usuario
+ * Representa las armas de simulador.
+ * 
+ * este le hereda a las diferentes tipos de armas
+ * 
+ * @author Valerie Moreno
+ * @version 1.0.0
+ * @since 2025-05-02
  */
-public class Weapon {
-    
+public abstract class Weapon {
+    public abstract void impact(Battlefield battlefield, Point punto);
 }

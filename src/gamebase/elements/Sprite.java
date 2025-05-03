@@ -5,9 +5,13 @@
  */
 package gamebase.elements;
 
+import autonoma.pulgasLocas.elements.Battlefield;
+import autonoma.pulgasLocas.elements.Player;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 
 /**
@@ -23,6 +27,7 @@ public abstract class Sprite
     protected Color color;
     protected ImageIcon image;
     protected GraphicContainer gameContainer;
+    protected Battlefield battlefield;
 
     public Sprite(int x, int y, int height, int width) {
         this.x = x;
@@ -126,4 +131,14 @@ public abstract class Sprite
     public void setGraphicContainer(GraphicContainer gContainer) {
         this.gameContainer = gContainer;
     }
+    public boolean checkCollision(Point punto) {
+        Rectangle area = new Rectangle(x, y, width, height);
+        return area.contains(punto);
+    }
+    public void mouseClicked(MouseEvent e) {
+        Player player;
+        Point click = e.getPoint();
+        player.usarArma(battlefield, click); // usa el arma sobre el punto
+    }
+
 }
