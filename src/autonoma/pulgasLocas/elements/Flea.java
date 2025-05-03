@@ -14,6 +14,7 @@ public abstract class Flea extends SpriteMobile {
     
     public Flea(int x, int y, int width, int height, int step) {
         super(x, y, height, width);
+        setStep(step);
     }
 
     // Método que debe implementar cada tipo de pulga (normal o mutante)
