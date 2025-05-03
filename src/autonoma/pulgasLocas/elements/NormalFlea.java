@@ -10,19 +10,19 @@ import javax.swing.ImageIcon;
  */
 public class NormalFlea extends Flea {
     private Image normalFleaImage;
-    public NormalFlea(int x, int y, int height, int width,int step) {
-        super(x, y, height, width,step);
+    public NormalFlea(int x, int y, int height, int width) {
+        super(x, y, height, width);
         normalFleaImage = new ImageIcon(getClass().getResource("/autonoma/pulgasLocas/images/PulgaNormal.png")).getImage();
        
     }
 
     
     public void registerHit(Battlefield battlefield) {
-        detach(battlefield);
+        delete(battlefield);
     }
 
     @Override
-    public void detach(Battlefield battlefield) {
+    public void delete(Battlefield battlefield) {
         battlefield.eliminarPulga(this);
         battlefield.getPlayer().setPuntaje(
         battlefield.getPlayer().getPuntaje() + 1

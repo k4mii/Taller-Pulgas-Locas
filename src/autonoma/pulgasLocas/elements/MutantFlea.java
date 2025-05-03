@@ -16,8 +16,8 @@ public class MutantFlea extends Flea {
     private Image mutantFlea;
     private int hitsReceived;
 
-    public MutantFlea(int x, int y, int height, int width,int step) {
-        super(x, y, height, width,step);
+    public MutantFlea(int x, int y, int height, int width) {
+        super(x, y, height, width);
         this.hitsReceived = 0;
         
         mutantFlea = new ImageIcon(getClass().getResource("/autonoma/pulgasLocas/images/PulgaMutante.png")).getImage();
@@ -27,12 +27,12 @@ public class MutantFlea extends Flea {
     public void registerHit(Battlefield battlefield) {
         hitsReceived++;
         if (hitsReceived >= 2) {
-            detach(battlefield);
+            delete(battlefield);
         }
     }    
 
    @Override
-    public void detach(Battlefield battlefield) {
+    public void delete(Battlefield battlefield) {
         battlefield.remove(this);
     } 
 

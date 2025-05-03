@@ -43,7 +43,7 @@ public class Player extends Sprite{
         this.armaActual = armaActual;
         this.puntaje = puntaje;
         
-        playerImage = new ImageIcon(getClass().getResource("/autonoma/pulgasLocas/images/")).getImage();
+        playerImage = new ImageIcon(getClass().getResource("/autonoma/pulgasLocas/images/Soldado.jpg")).getImage();
 
     }
 

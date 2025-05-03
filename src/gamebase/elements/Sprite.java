@@ -6,12 +6,9 @@
 package gamebase.elements;
 
 import autonoma.pulgasLocas.elements.Battlefield;
-import autonoma.pulgasLocas.elements.Player;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 
 /**

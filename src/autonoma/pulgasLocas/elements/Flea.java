@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package autonoma.pulgasLocas.elements;
 
 import gamebase.elements.SpriteMobile;
@@ -11,12 +7,38 @@ import gamebase.elements.SpriteMobile;
  * @author marti
  */
 public abstract class Flea extends SpriteMobile {
+    public static final int WIDTH = 30;
+    public static final int HEIGHT = 30;
     
-    public Flea(int x, int y, int width, int height, int step) {
+    public Flea(int x, int y, int width, int height) {
         super(x, y, height, width);
         setStep(step);
     }
+    
+    public static Flea create(Class type, int width, int height) 
+            throws InstantiationException, IllegalAccessException
+    {
+        int x = (int)(Math.random() * (width - Flea.WIDTH));
+        int y = (int)(Math.random() * (height - Flea.HEIGHT));
 
-    // Método que debe implementar cada tipo de pulga (normal o mutante)
-    public abstract void detach(Battlefield battlefield);
+        Flea m = null;
+        
+        if(type.equals(NormalFlea.class))
+            m = new NormalFlea(x, y, 
+                                Flea.WIDTH, 
+                                Flea.HEIGHT);
+        else
+            if(type.equals(MutantFlea.class))
+                m = new MutantFlea(x, y, 
+                                    Flea.WIDTH, 
+                                    Flea.HEIGHT);
+            else
+                System.out.println("ERROR: Flea.create unknown type of flea");
+        
+        return m;
+    } 
+    /**
+    *Método que debe implementar cada tipo de pulga (normal o mutante)
+    */
+    public abstract void delete(Battlefield battlefield);
 }
