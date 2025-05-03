@@ -1,10 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package autonoma.pulgasLocas.elements;
 
+import gamebase.elements.Sprite;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Point;
+import java.awt.event.KeyEvent;
+import javax.swing.ImageIcon;
 
 /**
  * Representa el jugador que utilizara el simulador.
@@ -14,7 +15,7 @@ import java.awt.Point;
  * @version 1.0.0
  * @since 2025-05-02
  */
-public class Player {
+public class Player extends Sprite{
 /**
  * Atributos
  */
@@ -27,15 +28,28 @@ public class Player {
  */  
     private int puntaje;
 /**
+ * Atributo de la imagen del  jugador
+ */    
+    private Image playerImage;
+/**
+ * Atributo para saber el paso del soldado
+ */  
+    protected int step = 7;  
+/**
  * Constructor
  */  
-    public Player(Weapon armaActual, int puntaje) {
+    public Player(Weapon armaActual, int puntaje, int x, int y, int height, int width) {
+        super(x, y, height, width);
         this.armaActual = armaActual;
         this.puntaje = puntaje;
+        
+        playerImage = new ImageIcon(getClass().getResource("/autonoma/pulgasLocas/images/")).getImage();
+
     }
+
 /**
- * Metodos de acepso 
- */  
+     * Metodos de acepso
+     */  
     public Weapon getArmaActual() {
         return armaActual;
     }
@@ -51,6 +65,46 @@ public class Player {
     public void setPuntaje(int puntaje) {
         this.puntaje = puntaje;
     }
+    
+    
+        public boolean move(int direction)
+    {
+        int nx = x;
+        int ny = y;
+        
+        switch(direction)
+        {
+            case KeyEvent.VK_UP:
+                ny -= step;
+            break;
+
+            case KeyEvent.VK_DOWN:
+                ny += step;
+            break;
+
+            case KeyEvent.VK_LEFT:
+                nx -= step;
+            break;
+
+            case KeyEvent.VK_RIGHT:
+                nx += step;
+            break;
+        }
+        
+        
+        if(!isOutOfGraphicContainer(nx, ny, width, height))
+        {
+            x = nx;
+            y = ny;
+
+            if(gameContainer != null)
+                gameContainer.refresh();
+            
+            return true;
+        }
+        
+        return false;
+    }
 /**
  * Metdo para usar el arma, el cual se le envia una instancia y el punto en cuan se va a discaparar
  */  
@@ -58,5 +112,10 @@ public class Player {
         if (armaActual != null) {
             armaActual.impact(battlefield, punto);
         }
+    }
+
+    @Override
+    public void paint(Graphics g) {
+         g.drawImage(playerImage, x, y, width, height, null);
     }
 }
