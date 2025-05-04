@@ -24,22 +24,15 @@ public class PulguinpiumGun extends Weapon{
     @Override
     public void impact(Battlefield battlefield, Point punto) {
         for (Sprite sprite : battlefield.getSprites()) {
-            if (sprite instanceof Flea && sprite.checkCollision(punto)) {
+            if (sprite instanceof Flea && ((Flea) sprite).checkCollision(punto)) {
                 Flea pulga = (Flea) sprite;
-
-                if (pulga instanceof MutantFlea) {
-                     Se convierte en una pulga normal (en la misma posición)
-                    MutantFlea mutante = (MutantFlea) pulga;
-
-                    NormalFlea nuevaPulga = new NormalFlea(
-                        mutante.getX(), mutante.getY(), mutante.getHeight(), mutante.getWidth(),mutante.getStep()
-                    );
-
-                    nuevaPulga.setGraphicContainer(mutante.gameContainer); // opcional
-
-                    battlefield.reemplazarPulga(mutante, nuevaPulga);  // método que debes tener
+            if (pulga instanceof MutantFlea) {
+                MutantFlea mutante = (MutantFlea) pulga;
+                NormalFlea nuevaPulga = new NormalFlea(
+                    mutante.getX(), mutante.getY(), mutante.getHeight(), mutante.getWidth()
+                );
+                battlefield.reemplazarPulga(mutante, nuevaPulga);
                 } else {
-                     Pulga normal: se elimina
                     battlefield.eliminarPulga(pulga);
                     battlefield.getPlayer().setPuntaje(
                         battlefield.getPlayer().getPuntaje() + 1

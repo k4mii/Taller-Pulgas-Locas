@@ -3,6 +3,7 @@ package autonoma.pulgasLocas.elements;
 import gamebase.elements.Sprite;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -41,9 +42,8 @@ public class FleaMissile extends Weapon{
                 MutantFlea mutante = (MutantFlea) pulga;
 
                 NormalFlea nuevaPulga = new NormalFlea(
-                    mutante.getX(), mutante.getY(), mutante.getHeight(), mutante.getWidth(),mutante.getStep()
+                    mutante.getX(), mutante.getY(), mutante.getHeight(), mutante.getWidth()
                 );
-                nuevaPulga.setGraphicContainer(mutante.gameContainer); // si usas
 
                 battlefield.reemplazarPulga(mutante, nuevaPulga);
             } else {
