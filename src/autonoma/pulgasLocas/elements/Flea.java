@@ -1,6 +1,7 @@
 package autonoma.pulgasLocas.elements;
 
 import gamebase.elements.SpriteMobile;
+import java.awt.Point;
 
 /**
  *
@@ -14,7 +15,10 @@ public abstract class Flea extends SpriteMobile {
         super(x, y, height, width);
         setStep(step);
     }
-    
+    public boolean checkCollision(Point punto) {
+        return punto.x >= this.getX() && punto.x <= this.getX() + this.getWidth()
+            && punto.y >= this.getY() && punto.y <= this.getY() + this.getHeight();
+    }
     public static Flea create(Class type, int width, int height) 
             throws InstantiationException, IllegalAccessException
     {
