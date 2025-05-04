@@ -16,7 +16,7 @@ public class MutantFlea extends Flea {
         super(x, y, height, width);
         this.hitsReceived = 0;
         
-        mutantFlea = new ImageIcon(getClass().getResource("/autonoma/pulgasLocas/images/PulgaMutante.png")).getImage();
+        mutantFlea = new ImageIcon(getClass().getResource("/autonoma/pulgasLocas/imagen/PulgaMutante.png")).getImage();
 
     }
 

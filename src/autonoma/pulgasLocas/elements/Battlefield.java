@@ -39,7 +39,14 @@ public  class Battlefield extends SpriteContainer{
  */  
     public Battlefield(int x, int y, int height, int width) {
         super(x, y, height, width);
+        this.sprites = new ArrayList<>();
     }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    
 /**
  * Metodos de acceso
  */  
@@ -124,14 +131,17 @@ public  class Battlefield extends SpriteContainer{
     *'S': Hace que todas las pulgas salten a una nueva posición aleatoria.
     *Flechas direccionales (opcional): Mueve al jugador (si está implementado)
      */
-    public void keyPressed(KeyEvent e)
+    public void keyPressed(int code)
     {
-        int code = e.getKeyCode();
                
-         if (code == KeyEvent.VK_SPACE) {
+             if (code == KeyEvent.VK_SPACE) {
              player.usarArma(this, null); 
          }
-        if(code == KeyEvent.VK_UP |code == KeyEvent.VK_DOWN |code == KeyEvent.VK_LEFT |code == KeyEvent.VK_RIGHT){
+        if(code == KeyEvent.VK_UP |
+                code == KeyEvent.VK_DOWN |
+                code == KeyEvent.VK_LEFT |
+                code == KeyEvent.VK_RIGHT)
+        {
             player.move(code);
             refresh();
         }

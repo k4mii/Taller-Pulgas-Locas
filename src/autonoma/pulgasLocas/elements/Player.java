@@ -38,12 +38,12 @@ public class Player extends Sprite{
 /**
  * Constructor
  */  
-    public Player(Weapon armaActual, int puntaje, int x, int y, int height, int width) {
+    public Player(int x, int y, int height, int width) {
         super(x, y, height, width);
-        this.armaActual = armaActual;
-        this.puntaje = puntaje;
+        this.armaActual = null;
+        this.puntaje = 0;
         
-        playerImage = new ImageIcon(getClass().getResource("/autonoma/pulgasLocas/images/Soldado.jpg")).getImage();
+        playerImage = new ImageIcon(getClass().getResource("/autonoma/pulgasLocas/imagen/Soldado.jpg")).getImage();
 
     }
 

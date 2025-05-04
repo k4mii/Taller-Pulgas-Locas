@@ -12,7 +12,7 @@ public class NormalFlea extends Flea {
     private Image normalFleaImage;
     public NormalFlea(int x, int y, int height, int width) {
         super(x, y, height, width);
-        normalFleaImage = new ImageIcon(getClass().getResource("/autonoma/pulgasLocas/images/PulgaNormal.png")).getImage();
+        normalFleaImage = new ImageIcon(getClass().getResource("/autonoma/pulgasLocas/imagen/PulgaNormal.png")).getImage();
        
     }
 
