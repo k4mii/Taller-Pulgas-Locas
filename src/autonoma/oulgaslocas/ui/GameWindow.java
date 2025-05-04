@@ -51,8 +51,7 @@ public class GameWindow extends javax.swing.JFrame implements GraphicContainer{
     }// </editor-fold>//GEN-END:initComponents
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-        System.out.println("Tecla presionada: " + evt.getKeyCode()); // Depuración
-        if(evt.getKeyCode() == KeyEvent.VK_Q)
+       if(evt.getKeyCode() == KeyEvent.VK_Q)
         {
             System.exit(0);
         }

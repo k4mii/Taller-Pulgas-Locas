@@ -34,6 +34,8 @@ public  class Battlefield extends SpriteContainer{
  * Atributo la lista de sprite que contiene las pulgas
  */  
     private ArrayList<Sprite> sprites;
+    
+    protected FleaSpawner fleaSpawner;
 /**
  * Constructor
  */  
@@ -74,7 +76,7 @@ public  class Battlefield extends SpriteContainer{
             Logger.getLogger(Battlefield.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        sprites.add(f);      
+        sprites.add(f); 
     }
    
 /**
@@ -128,7 +130,7 @@ public  class Battlefield extends SpriteContainer{
 
     
     /**
-    * Maneja los eventos del teclado y ejecuta las acciones correspondientes
+    *Maneja los eventos del teclado y ejecuta las acciones correspondientes
     *Espacio (SPACE): El jugador usa el arma (pistola o misil), 'this' representa el campo de batalla actual
     *P': Agrega una nueva pulga normal al campo de batalla.
     *'M': Agrega una nueva pulga mutante al campo de batalla.
@@ -173,7 +175,7 @@ public  class Battlefield extends SpriteContainer{
     @Override
     public void paint(Graphics g) {
        for (Sprite sprite : sprites) {
-        sprite.paint(g);
+            sprite.paint(g);
         }
         if (player != null) player.paint(g);
      }
