@@ -167,6 +167,7 @@ public  class Battlefield extends SpriteContainer{
             saltarPulga();
             refresh();
         }
+        
     }
     
     @Override

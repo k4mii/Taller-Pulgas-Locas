@@ -89,6 +89,7 @@ public class GameWindow extends javax.swing.JFrame implements GraphicContainer{
         this.battlefield = battlefield;
     }
     
+    
     @Override
     public void paint(Graphics g) {
         super.paint(g); 
