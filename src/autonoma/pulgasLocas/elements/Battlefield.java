@@ -42,6 +42,8 @@ public  class Battlefield extends SpriteContainer{
     public Battlefield(int x, int y, int height, int width) {
         super(x, y, height, width);
         this.sprites = new ArrayList<>();
+        PulguinpiumGun armaInicial = new PulguinpiumGun();
+        this.player = new Player(armaInicial, width / 2, height / 2, 50, 50); 
     }
 
     public void setPlayer(Player player) {
@@ -124,6 +126,8 @@ public  class Battlefield extends SpriteContainer{
         }
         refresh();
     }
+
+
     
     /**
     *Maneja los eventos del teclado y ejecuta las acciones correspondientes
@@ -166,7 +170,7 @@ public  class Battlefield extends SpriteContainer{
             refresh();
         }
     }
-        
+    
     @Override
     public void paint(Graphics g) {
        for (Sprite sprite : sprites) {
