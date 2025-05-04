@@ -39,8 +39,6 @@ public  class Battlefield extends SpriteContainer{
  */  
     public Battlefield(int x, int y, int height, int width) {
         super(x, y, height, width);
-        this.player = player;
-        this.sprites = sprites;
     }
 /**
  * Metodos de acceso
@@ -96,34 +94,46 @@ public  class Battlefield extends SpriteContainer{
         sprites.remove(vieja);
         sprites.add(nueva);
     }
-/**
- * Metodo de comando 
- */  
-    public void keyPressed(KeyEvent e) {
-       
-        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            player.usarArma(battlefield, null); // sin punto necesario
-        }
-    }
+    
     public void eliminarPulga(Flea pulga) {
         sprites.remove(pulga); // o el arreglo/lista que estés usando para almacenar las pulgas
     }
     
+    /**
+     * Metodo que recorre cada Sprite, verifica que sea de tipo Flea, si es asi, cada pulga
+     * se mueve a una nueva posicion aleatoria dentro de los limites del campo de batalla.
+     * 
+     */
     public void saltarPulga(){
-        
+        for (Sprite sprite : sprites) {
+            if (sprite instanceof Flea) {
+                int nuevaX = (int) (Math.random() * (width - sprite.getWidth()));
+                int nuevaY = (int) (Math.random() * (height - sprite.getHeight()));
+                sprite.setX(nuevaX);
+                sprite.setY(nuevaY);
+            }
+        }
+        refresh();
     }
     
-        public void keyPressed(int code)
+    /**
+    * Maneja los eventos del teclado y ejecuta las acciones correspondientes
+    *Espacio (SPACE): El jugador usa el arma (pistola o misil), 'this' representa el campo de batalla actual
+    *P': Agrega una nueva pulga normal al campo de batalla.
+    *'M': Agrega una nueva pulga mutante al campo de batalla.
+    *'S': Hace que todas las pulgas salten a una nueva posición aleatoria.
+    *Flechas direccionales (opcional): Mueve al jugador (si está implementado)
+     */
+    public void keyPressed(KeyEvent e)
     {
-        if(code == KeyEvent.VK_UP |
-           code == KeyEvent.VK_DOWN |
-           code == KeyEvent.VK_LEFT |
-           code == KeyEvent.VK_RIGHT)
-        {
-            if(flea.move(code))
-            {
-                processMushroomsEaten();
-            }
+        int code = e.getKeyCode();
+               
+         if (code == KeyEvent.VK_SPACE) {
+             player.usarArma(this, null); 
+         }
+        if(code == KeyEvent.VK_UP |code == KeyEvent.VK_DOWN |code == KeyEvent.VK_LEFT |code == KeyEvent.VK_RIGHT){
+            player.move(code);
+            refresh();
         }
         
         if(code == KeyEvent.VK_P)
@@ -140,14 +150,18 @@ public  class Battlefield extends SpriteContainer{
 
         if(code == KeyEvent.VK_S)
         {
-            addTroll();
+            saltarPulga();
             refresh();
         }
     }
         
     @Override
     public void paint(Graphics g) {
-    }
+       for (Sprite sprite : sprites) {
+        sprite.paint(g);
+        }
+        if (player != null) player.paint(g);
+     }
 
     @Override
     public void refresh() {

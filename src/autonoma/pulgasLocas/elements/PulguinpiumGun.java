@@ -28,7 +28,7 @@ public class PulguinpiumGun extends Weapon{
                 Flea pulga = (Flea) sprite;
 
                 if (pulga instanceof MutantFlea) {
-                    // Se convierte en una pulga normal (en la misma posición)
+                     Se convierte en una pulga normal (en la misma posición)
                     MutantFlea mutante = (MutantFlea) pulga;
 
                     NormalFlea nuevaPulga = new NormalFlea(
@@ -39,7 +39,7 @@ public class PulguinpiumGun extends Weapon{
 
                     battlefield.reemplazarPulga(mutante, nuevaPulga);  // método que debes tener
                 } else {
-                    // Pulga normal: se elimina
+                     Pulga normal: se elimina
                     battlefield.eliminarPulga(pulga);
                     battlefield.getPlayer().setPuntaje(
                         battlefield.getPlayer().getPuntaje() + 1
