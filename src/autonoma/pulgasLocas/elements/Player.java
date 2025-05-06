@@ -42,12 +42,7 @@ public class Player extends Sprite{
         super(x, y, height, width);
         this.armaActual = null;
         this.puntaje = 0;
-        
-<<<<<<< HEAD
         playerImage = new ImageIcon(getClass().getResource("/autonoma/pulgasLocas/imagen/soldado.png")).getImage();
-=======
-        playerImage = new ImageIcon(getClass().getResource("/autonoma/pulgasLocas/images/Soldado.jpg")).getImage();
->>>>>>> 043cd0e509dba93ed3cf81a7ac0cd390972a9b57
 
     }
 
@@ -94,14 +89,14 @@ public class Player extends Sprite{
             break;
         }
         
-        
+        Battlefield battlefield;
         if(!isOutOfGraphicContainer(nx, ny, width, height))
         {
             x = nx;
             y = ny;
 
-            if(gameContainer != null)
-                gameContainer.refresh();
+            if(this.battlefield != null)
+                this.battlefield.refresh();
             
             return true;
         }
@@ -115,6 +110,7 @@ public class Player extends Sprite{
         if (armaActual != null) {
             armaActual.impact(battlefield, punto);
         }
+        System.out.println("entre");
     }
 
     @Override

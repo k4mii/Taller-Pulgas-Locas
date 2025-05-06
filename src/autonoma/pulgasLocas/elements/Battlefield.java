@@ -3,10 +3,12 @@ package autonoma.pulgasLocas.elements;
 import gamebase.elements.Sprite;
 import gamebase.elements.SpriteContainer;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.util.List;
 import java.util.ArrayList;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,6 +32,7 @@ public  class Battlefield extends SpriteContainer{
  * Atributo de la instancia de la clase Player
  */  
     private Player player;
+
 /**
  * Atributo la lista de sprite que contiene las pulgas
  */  
@@ -93,7 +96,8 @@ public  class Battlefield extends SpriteContainer{
             Logger.getLogger(Battlefield.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        sprites.add(f);      
+        sprites.add(f);  
+        refresh();
    }
    
    
@@ -104,6 +108,7 @@ public  class Battlefield extends SpriteContainer{
     public void reemplazarPulga(Flea vieja, Flea nueva) {
         sprites.remove(vieja);
         sprites.add(nueva);
+        refresh();
     }
     
     public void eliminarPulga(Flea pulga) {
@@ -124,10 +129,10 @@ public  class Battlefield extends SpriteContainer{
                 sprite.setY(nuevaY);
             }
         }
-        refresh();
+        refresh(); 
     }
 
-
+   
     
     /**
     *Maneja los eventos del teclado y ejecuta las acciones correspondientes
@@ -137,12 +142,14 @@ public  class Battlefield extends SpriteContainer{
     *'S': Hace que todas las pulgas salten a una nueva posición aleatoria.
     *Flechas direccionales (opcional): Mueve al jugador (si está implementado)
      */
+    
     public void keyPressed(int code)
     {
                
-             if (code == KeyEvent.VK_SPACE) {
-             player.usarArma(this, null); 
-         }
+        if (code == KeyEvent.VK_SPACE) {
+            player.usarArma(this, null); 
+        }
+            
         if(code == KeyEvent.VK_UP |
                 code == KeyEvent.VK_DOWN |
                 code == KeyEvent.VK_LEFT |

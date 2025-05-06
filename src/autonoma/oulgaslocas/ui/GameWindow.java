@@ -3,8 +3,10 @@ package autonoma.oulgaslocas.ui;
 import autonoma.pulgasLocas.elements.Battlefield;
 import gamebase.elements.GraphicContainer;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 
 /**
  *
@@ -49,12 +51,13 @@ public class GameWindow extends javax.swing.JFrame implements GraphicContainer{
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
        if(evt.getKeyCode() == KeyEvent.VK_Q)
         {
             System.exit(0);
         }
+
         
         if(evt.getKeyCode() == KeyEvent.VK_UP |
            evt.getKeyCode() == KeyEvent.VK_DOWN |
