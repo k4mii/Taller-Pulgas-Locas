@@ -128,15 +128,10 @@ public abstract class Sprite
     public void setGraphicContainer(GraphicContainer gContainer) {
         this.gameContainer = gContainer;
     }
-    /*public boolean checkCollision(Point punto) {
-        Rectangle area = new Rectangle(x, y, width, height);
-        return area.contains(punto);
+    
+    public Rectangle getBoundaries() {
+        return new Rectangle(x, y, width, height);
     }
-    public void mouseClicked(MouseEvent e) {
-        Player player;
-        Point click = e.getPoint();
-        player.usarArma(battlefield, click); // usa el arma sobre el punto
-    }
-*/
+
 
 }

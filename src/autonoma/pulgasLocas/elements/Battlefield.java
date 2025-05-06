@@ -140,9 +140,9 @@ public  class Battlefield extends SpriteContainer{
     public void keyPressed(int code)
     {
                
-             if (code == KeyEvent.VK_SPACE) {
-             player.usarArma(this, null); 
-         }
+        if (code == KeyEvent.VK_SPACE) {
+            player.usarArma(this, null); 
+        }
         if(code == KeyEvent.VK_UP |
                 code == KeyEvent.VK_DOWN |
                 code == KeyEvent.VK_LEFT |

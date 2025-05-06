@@ -17,4 +17,5 @@ import java.awt.Point;
  */
 public abstract class Weapon {
     public abstract void impact(Battlefield battlefield, Point punto);
+    
 }

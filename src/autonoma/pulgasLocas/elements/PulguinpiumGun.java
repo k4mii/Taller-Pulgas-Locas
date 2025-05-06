@@ -24,22 +24,13 @@ public class PulguinpiumGun extends Weapon{
  */
     @Override
     public void impact(Battlefield battlefield, Point punto) {
-        for (Sprite sprite : battlefield.getSprites()) {
-            if (sprite instanceof Flea && ((Flea) sprite).checkCollision(punto)) {
-                Flea pulga = (Flea) sprite;
-            if (pulga instanceof MutantFlea) {
-                MutantFlea mutante = (MutantFlea) pulga;
-                NormalFlea nuevaPulga = new NormalFlea(
-                    mutante.getX(), mutante.getY(), mutante.getHeight(), mutante.getWidth()
-                );
-                battlefield.reemplazarPulga(mutante, nuevaPulga);
-                } else {
-                    battlefield.eliminarPulga(pulga);
-                    battlefield.getPlayer().setPuntaje(
-                        battlefield.getPlayer().getPuntaje() + 1
-                    );
+        for (Sprite s : battlefield.getSprites()) {
+            if (s instanceof Flea) {
+                if (s.getBoundaries().contains(punto)) {
+                    battlefield.eliminarPulga((Flea) s);
+                    battlefield.getPlayer().setPuntaje(battlefield.getPlayer().getPuntaje() + 1);
+                    break;
                 }
-                break; // solo se afecta una pulga
             }
         }
     }  
