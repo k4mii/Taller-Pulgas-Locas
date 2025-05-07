@@ -32,6 +32,7 @@ public class FleaMissile extends Weapon{
 
         int cantidadAEliminar = todasPulgas.size() / 2;
 
+
         for (int i = 0; i < cantidadAEliminar; i++) {
             Flea pulga = todasPulgas.get(i);
 

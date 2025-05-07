@@ -147,9 +147,10 @@ public  class Battlefield extends SpriteContainer{
     {
                
         if (code == KeyEvent.VK_SPACE) {
-            player.usarArma(this, null); 
+            Point punto = new Point(player.getX(), player.getY()); 
+            player.usarArmaMisil(this, punto); 
         }
-            
+
         if(code == KeyEvent.VK_UP |
                 code == KeyEvent.VK_DOWN |
                 code == KeyEvent.VK_LEFT |

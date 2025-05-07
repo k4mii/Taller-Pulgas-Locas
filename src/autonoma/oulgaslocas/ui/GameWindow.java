@@ -32,6 +32,11 @@ public class GameWindow extends javax.swing.JFrame implements GraphicContainer{
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
         addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 formKeyPressed(evt);
@@ -87,6 +92,13 @@ public class GameWindow extends javax.swing.JFrame implements GraphicContainer{
             battlefield.keyPressed(evt.getKeyCode());
         }
     }//GEN-LAST:event_formKeyPressed
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        if(evt.getButton() == java.awt.event.MouseEvent.BUTTON1) {
+            battlefield.getPlayer().usarArmaPistola(battlefield, evt.getPoint());
+            battlefield.refresh();
+        }
+    }//GEN-LAST:event_formMouseClicked
     public void setBattlefield(Battlefield battlefield) {
         this.battlefield = battlefield;
     }

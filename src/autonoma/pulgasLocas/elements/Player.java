@@ -40,8 +40,9 @@ public class Player extends Sprite{
  */  
     public Player(Weapon armaActual, int x, int y, int height, int width) {
         super(x, y, height, width);
-        this.armaActual = null;
+        this.armaActual = armaActual;
         this.puntaje = 0;
+
         playerImage = new ImageIcon(getClass().getResource("/autonoma/pulgasLocas/imagen/soldado.png")).getImage();
 
     }
@@ -106,13 +107,15 @@ public class Player extends Sprite{
 /**
  * Metdo para usar el arma, el cual se le envia una instancia y el punto en cuan se va a discaparar
  */  
-    public void usarArma(Battlefield battlefield, Point punto) {
+    public void usarArmaPistola(Battlefield battlefield, Point punto) {
         if (armaActual != null) {
             armaActual.impact(battlefield, punto);
         }
         System.out.println("entre");
     }
-
+    public void usarArmaMisil (Battlefield battlefield, Point punto){
+        armaActual.impact(battlefield, punto);
+    }
     @Override
     public void paint(Graphics g) {
          g.drawImage(playerImage, x, y, width, height, null);
