@@ -42,7 +42,7 @@ public class Player extends Sprite{
         super(x, y, height, width);
         this.armaActual = armaActual;
         this.puntaje = 0;
-        
+
         playerImage = new ImageIcon(getClass().getResource("/autonoma/pulgasLocas/imagen/soldado.png")).getImage();
 
     }
@@ -90,14 +90,14 @@ public class Player extends Sprite{
             break;
         }
         
-        
+        Battlefield battlefield;
         if(!isOutOfGraphicContainer(nx, ny, width, height))
         {
             x = nx;
             y = ny;
 
-            if(gameContainer != null)
-                gameContainer.refresh();
+            if(this.battlefield != null)
+                this.battlefield.refresh();
             
             return true;
         }
@@ -107,16 +107,23 @@ public class Player extends Sprite{
 /**
  * Metdo para usar el arma, el cual se le envia una instancia y el punto en cuan se va a discaparar
  */  
-    public void usarArma(Battlefield battlefield, Point punto) {
+    public void usarArmaPistola(Battlefield battlefield, Point punto) {
         if (armaActual != null) {
             armaActual.impact(battlefield, punto);
         }
+        System.out.println("entre");
     }
+    public void usarArmaMisil (Battlefield battlefield, Point punto){
+        armaActual.impact(battlefield, punto);
+    }
+<<<<<<< HEAD
     
     public void aumentarPuntaje(int score){
         this.puntaje += score;
     }
 
+=======
+>>>>>>> 4c8e5c3762f6bec3f31d0f54a6c1ce9c64e996d9
     @Override
     public void paint(Graphics g) {
          g.drawImage(playerImage, x, y, width, height, null);

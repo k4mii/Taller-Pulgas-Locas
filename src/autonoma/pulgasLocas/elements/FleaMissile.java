@@ -23,7 +23,7 @@ public class FleaMissile extends Weapon{
     @Override
     public void impact(Battlefield battlefield, Point punto) {
         List<Flea> todasPulgas = new ArrayList<>();
-
+        System.out.println("misil");
         for (Sprite s : battlefield.getSprites()) {
             if (s instanceof Flea) {
                 todasPulgas.add((Flea) s);
@@ -32,8 +32,6 @@ public class FleaMissile extends Weapon{
 
         int cantidadAEliminar = todasPulgas.size() / 2;
 
-        // Barajamos aleatoriamente la lista
-        Collections.shuffle(todasPulgas);
 
         for (int i = 0; i < cantidadAEliminar; i++) {
             Flea pulga = todasPulgas.get(i);

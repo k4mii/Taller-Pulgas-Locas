@@ -1,7 +1,11 @@
 package autonoma.pulgasLocas.elements;
 
+import gamebase.elements.Sprite;
 import gamebase.elements.SpriteMobile;
 import java.awt.Point;
+import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -11,6 +15,7 @@ public abstract class Flea extends SpriteMobile {
     public static final int WIDTH = 30;
     public static final int HEIGHT = 30;
     
+    
     public Flea(int x, int y, int width, int height) {
         super(x, y, height, width);
         setStep(step);
@@ -19,26 +24,39 @@ public abstract class Flea extends SpriteMobile {
         return punto.x >= this.getX() && punto.x <= this.getX() + this.getWidth()
             && punto.y >= this.getY() && punto.y <= this.getY() + this.getHeight();
     }
-    public static Flea create(Class type, int width, int height) 
+    public static Flea create(Class type, int width, int height,List<Sprite> sprites) 
             throws InstantiationException, IllegalAccessException
     {
-        int x = (int)(Math.random() * (width - Flea.WIDTH));
-        int y = (int)(Math.random() * (height - Flea.HEIGHT));
+        int x, y;
+        boolean overlaps;
+
+        do {
+            x = (int)(Math.random() * (width - Flea.WIDTH));
+            y = (int)(Math.random() * (height - Flea.HEIGHT));
+            overlaps = false;
+
+            Rectangle newFleaRect = new Rectangle(x, y, Flea.WIDTH, Flea.HEIGHT);
+
+            for (Sprite sprite : sprites) {
+                if (sprite instanceof Flea) {
+                    Rectangle existingFleaRect = new Rectangle(sprite.getX(), sprite.getY(), sprite.getWidth(), sprite.getHeight());
+                    if (newFleaRect.intersects(existingFleaRect)) {
+                        overlaps = true;
+                        break;
+                    }
+                }
+            }
+        } while (overlaps);
 
         Flea m = null;
-        
+
         if(type.equals(NormalFlea.class))
-            m = new NormalFlea(x, y, 
-                                Flea.WIDTH, 
-                                Flea.HEIGHT);
+            m = new NormalFlea(x, y, Flea.WIDTH, Flea.HEIGHT);
+        else if(type.equals(MutantFlea.class))
+            m = new MutantFlea(x, y, Flea.WIDTH, Flea.HEIGHT);
         else
-            if(type.equals(MutantFlea.class))
-                m = new MutantFlea(x, y, 
-                                    Flea.WIDTH, 
-                                    Flea.HEIGHT);
-            else
-                System.out.println("ERROR: Flea.create unknown type of flea");
-        
+            System.out.println("ERROR: Flea.create unknown type of flea");
+
         return m;
     } 
     /**
