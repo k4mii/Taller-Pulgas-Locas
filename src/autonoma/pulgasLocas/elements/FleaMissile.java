@@ -18,7 +18,7 @@ import java.util.List;
 public class FleaMissile extends Weapon{
 /**
  * 
- * esta funcion representa el impacto del misil en la pulga
+ * este metodo representa el impacto del misil en la pulga
  */
     @Override
     public void impact(Battlefield battlefield, Point punto) {

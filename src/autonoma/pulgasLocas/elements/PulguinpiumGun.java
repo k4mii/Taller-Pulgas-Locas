@@ -18,7 +18,7 @@ import java.awt.Point;
 public class PulguinpiumGun extends Weapon{
 /**
  * 
- * esta funcion representa el impacto de la pistola en la pulga
+ * este metodo  representa el impacto de la pistola en la pulga
  */
    @Override
 

@@ -125,6 +125,14 @@ public class Battlefield extends SpriteContainer {
         refresh();
     }
 
+    /**
+     * Elimina una pulga del campo de batalla. Este método elimina la pulga
+     * especificada de la lista de sprites activos y aumenta el puntaje del
+     * jugador en 1 punto por cada pulga eliminada. Si después de eliminar la
+     * pulga ya no quedan más pulgas en el campo de batalla,
+     *
+     * @param pulga
+     */
     public void eliminarPulga(Flea pulga) {
         // Aumenta el puntaje del jugador por cada pulga eliminada
         this.player.aumentarPuntaje(1);
@@ -136,6 +144,15 @@ public class Battlefield extends SpriteContainer {
         }
     }
 
+    /**
+     * Maneja el fin de la partida, ofreciendo la opción de reiniciar el juego o
+     * finalizarlo. Este método detiene el generador de pulgas y muestra un
+     * cuadro de diálogo al jugador preguntando si desea reiniciar la partida.
+     * Si el jugador elige reiniciar, se restablece el puntaje a cero y se
+     * inicia nuevamente el generador de pulgas. Si el jugador decide finalizar
+     * la partida, se guarda su puntaje en un archivo y se muestra el puntaje
+     * máximo alcanzado en la pantalla. Finalmente, el juego se cierra.
+     */
     private void manejarFinDePartida() {
         // Detenemos el generador de pulgas
         this.fleaSpawner.stop();
@@ -155,9 +172,9 @@ public class Battlefield extends SpriteContainer {
             // Reiniciamos el puntaje y refrescamos el campo de batalla
             this.player.setPuntaje(0);
             this.refresh();
-            this.fleaSpawner.start();  
+            this.fleaSpawner.start();
         } else {
-            JOptionPane.showMessageDialog(null, " Gracias por jugar :)" );
+            JOptionPane.showMessageDialog(null, " Gracias por jugar :)");
             try {
                 // Guardamos el puntaje
                 Score score = new Score("puntajes.txt");
@@ -183,7 +200,7 @@ public class Battlefield extends SpriteContainer {
             }
             System.exit(0);
         }
-        
+
     }
 
     /**

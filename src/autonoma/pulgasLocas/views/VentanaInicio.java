@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package autonoma.pulgasLocas.views;
 
 import autonoma.oulgaslocas.ui.GameWindow;
@@ -14,11 +10,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 /**
- *
- * @author Kamii
+ * @author Maria Camila Prada Cortes
+ * @version 1.0.0
+ * @since 2025-05-02
  */
-public class VentanaInicio extends JFrame{
+public class VentanaInicio extends JFrame {
+
     private Battlefield battlefield;
+
     /**
      * Creates new form VentanaInicio
      */
@@ -26,9 +25,9 @@ public class VentanaInicio extends JFrame{
         setUndecorated(true);
         initComponents();
         this.setLocationRelativeTo(null);
-        try{
-        this.setIconImage(new ImageIcon(getClass().getResource("/autonoma/pulgasLocas/imagen/pulgaMutante.png")).getImage());
-        }catch(Exception e){
+        try {
+            this.setIconImage(new ImageIcon(getClass().getResource("/autonoma/pulgasLocas/imagen/pulgaMutante.png")).getImage());
+        } catch (Exception e) {
             System.out.println("imagen no encontrada");
         }
     }
@@ -144,25 +143,31 @@ public class VentanaInicio extends JFrame{
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnJugarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnJugarMouseClicked
-
-    Battlefield battlefield = new Battlefield(0, 0, 500, 500);
-    Weapon armaInicial = new PulguinpiumGun();  
-    Player player = new Player(armaInicial, 100, 100, 50, 50);
-    battlefield.setPlayer(player);
-
-    GameWindow window = new GameWindow(battlefield);
-    battlefield.setGraphicContainer(window);
-    
-    window.setSize(500, 500);
-    window.setTitle("Pulgas locas");
-    window.setLocationRelativeTo(null);
-    window.setVisible(true);
-
-    
-    this.dispose();
+        iniciarJuego();
 
     }//GEN-LAST:event_btnJugarMouseClicked
+    /**
+     * Este método inicializa y configura el juego al hacer clic en el botón
+     * "JUGAR". Crea una nueva instancia de los objetos necesarios para iniciar
+     * la partida, configura la ventana de juego y muestra el campo de batalla
+     * con el jugador. Después de iniciar el juego, cierra la ventana de inicio.
+     */
+    private void iniciarJuego() {
+        Battlefield battlefield = new Battlefield(0, 0, 500, 500);
+        Weapon armaInicial = new PulguinpiumGun();
+        Player player = new Player(armaInicial, 100, 100, 50, 50);
+        battlefield.setPlayer(player);
 
+        GameWindow window = new GameWindow(battlefield);
+        battlefield.setGraphicContainer(window);
+
+        window.setSize(500, 500);
+        window.setTitle("Pulgas locas");
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
+
+        this.dispose();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnJugar;

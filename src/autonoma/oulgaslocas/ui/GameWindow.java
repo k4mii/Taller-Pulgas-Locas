@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import javax.swing.JOptionPane;
 
-
 /**
- *
- * @author Kamii
+ * @author Maria Camila Prada Cortes
+ * @version 1.0.0
+ * @since 2025-05-02
  */
 public class GameWindow extends javax.swing.JFrame implements GraphicContainer {
 
@@ -85,13 +85,12 @@ public class GameWindow extends javax.swing.JFrame implements GraphicContainer {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
+
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_Q) {
             System.exit(0);
         }
-        if(evt.getKeyCode() == KeyEvent.VK_SPACE)
-        {
+        if (evt.getKeyCode() == KeyEvent.VK_SPACE) {
             battlefield.keyPressed(evt.getKeyCode());
         }
 
@@ -114,15 +113,30 @@ public class GameWindow extends javax.swing.JFrame implements GraphicContainer {
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
 
-        if(evt.getButton() == java.awt.event.MouseEvent.BUTTON1) {
+        if (evt.getButton() == java.awt.event.MouseEvent.BUTTON1) {
             battlefield.getPlayer().usarArmaPistola(battlefield, evt.getPoint());
             battlefield.refresh();
         }
     }//GEN-LAST:event_formMouseClicked
+    /**
+     * Establece el campo de batalla actual para la ventana del juego. Este
+     * método asigna el objeto {@link Battlefield} proporcionado a la variable
+     * de instancia correspondiente, lo que permite que el campo de batalla sea
+     * gestionado y renderizado en la interfaz de usuario.
+     *
+     * @param battlefield
+     */
     public void setBattlefield(Battlefield battlefield) {
         this.battlefield = battlefield;
     }
 
+    /**
+     * Carga el puntaje máximo desde un archivo de texto. Este método lee los
+     * puntajes guardados en un archivo llamado "puntajes.txt". Si existen
+     * puntajes, se carga el puntaje máximo, y si no, se establece el máximo
+     * como 0. Si ocurre algún error durante la lectura del archivo, se muestra
+     * un mensaje de error y el puntaje máximo se establece en 0.
+     */
     private void cargarMaximo() {
         try {
             Score score = new Score("puntajes.txt");
@@ -138,6 +152,11 @@ public class GameWindow extends javax.swing.JFrame implements GraphicContainer {
         }
     }
 
+    /**
+     * Dibuja el contenido de la ventana del juego.
+     *
+     * @param g
+     */
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -151,11 +170,19 @@ public class GameWindow extends javax.swing.JFrame implements GraphicContainer {
         }
     }
 
+    /**
+     * Refresca la interfaz gráfica de la ventana del juego.
+     */
     @Override
     public void refresh() {
         this.repaint();
     }
 
+    /**
+     * Este método devuelve el rectángulo que representa los límites de la
+     * ventana del juego (la posición y el tamaño de la ventana).
+     * @return
+     */
     @Override
     public Rectangle getBoundaries() {
         return this.getBounds();
