@@ -37,17 +37,19 @@ public class EscritorArchivoTextoPlano implements Escritor{
      * 
      * @throws IOException 
      */
-    @Override
-    public void escribir(ArrayList<String> archivo) throws IOException {
+@Override
+public void escribir(ArrayList<String> archivo, String ruta) throws IOException {
+    File fichero = new File(ruta);
+    // Usamos 'true' en el segundo parámetro de FileWriter para añadir contenido
+    FileWriter writer = new FileWriter(fichero, true); // true significa append
+    PrintWriter pw = new PrintWriter(writer);
 
-        File fichero = new File(this.filePath);
-        FileWriter writer = new FileWriter(fichero,false);
-        PrintWriter pw = new PrintWriter(writer);
-        
-        for (String linea : archivo) {
-            pw.println(linea);
-        }
-        
-        writer.close();
+    for (String linea : archivo) {
+        pw.println(linea);
     }
+
+    pw.close();
+    writer.close();
+}
+
 }

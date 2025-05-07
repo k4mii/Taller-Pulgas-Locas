@@ -9,14 +9,14 @@ import java.util.ArrayList;
 
 /**
  * Implementación de Lector para archivos de texto plano
- * 
+ *
  * @author Kamii
  * @version 1.0.0
  * @since 2025-05-02
  */
 public class LectorArchivoTextoPlano implements Lector {
-    
-     /**
+
+    /**
      * Archivo guardado por lineas
      */
     private ArrayList<String> archivo;
@@ -24,8 +24,7 @@ public class LectorArchivoTextoPlano implements Lector {
      * charset en el cual se desea leer el archivo
      */
     private Charset charset = Charset.forName("UTF-8");
-    
-    
+
     ////////////////////////////////////////////////////////////////////////
     /**
      * Contructor de la clase
@@ -36,7 +35,8 @@ public class LectorArchivoTextoPlano implements Lector {
 
     /////////////////////////////////////////////////////////////////////////
     /**
-     * Lee el archivo de texto dónde tenemos el programa que deseamos interpretar
+     * Lee el archivo de texto dónde tenemos el programa que deseamos
+     * interpretar
      *
      * @param localizacionArchivo ruta del archivo
      * @return arreglo con el archivo de texto
@@ -45,49 +45,25 @@ public class LectorArchivoTextoPlano implements Lector {
     @Override
     public ArrayList<String> leer(String localizacionArchivo) throws IOException {
         archivo.clear();
-        File file =  null;
-        FileReader reader = null;
-        BufferedReader buffer = null;
-        
-        file = new File(localizacionArchivo);
-        reader = new FileReader(file);
-        buffer = new BufferedReader(reader);
-        
+        File file = new File(localizacionArchivo);
+
+        // Verifica si el archivo existe antes de intentar leerlo
+        if (!file.exists()) {
+            // Si el archivo no existe, creamos uno vacío
+            file.createNewFile();
+            return archivo;
+        }
+
+        FileReader reader = new FileReader(file, charset);
+        BufferedReader buffer = new BufferedReader(reader);
+
         String linea;
-        while ((linea= buffer.readLine())!=null ) { 
-            agregarLinea(linea);
+        while ((linea = buffer.readLine()) != null) {
+            archivo.add(linea);
         }
-        
+
         reader.close();
-        return this.archivo;
+        return archivo;
     }
-    ///////////////////////////////////////////////////////////////////////////
-    /**
-     * Agrega lineas al Arraylist en el cual le guarda el archivo
-     *
-     * @param linea
-     */
-    public void agregarLinea(String linea) {
-        archivo.add(linea);
-    }
-    
-    //////////////////////////////////////////////////////////////////////////
-    /**
-     * Limpia el archivo de posiciones en blanco
-     * @param texto 
-     */
-    public void limpiarTexto(ArrayList<String> texto)
-    {
-        for (int i = 0; i < texto.size(); i++) {
-            
-            if(texto.get(i).length()==0)
-            {
-                texto.remove(i);
-            }
-            
-        }
-        
-    }
-    
-    //////////////////////////////////////////////////////////////////////////
+
 }

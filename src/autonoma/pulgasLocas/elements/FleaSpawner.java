@@ -53,7 +53,7 @@ public class FleaSpawner implements Runnable{
             }catch(InterruptedException ex){
                 
             }
-            if (isPaused()) continue;
+
         }
     }
     

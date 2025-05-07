@@ -10,30 +10,30 @@ import java.awt.Point;
 
 /**
  * Representa la pistola contra las pulgas.
- * 
- * 
+ *
+ *
  * Hereda de Weapon.
+ *
  * @author Valerie Moreno Catañeda
  * @version 1.0.0
  * @since 2025-05-02
  */
-public class PulguinpiumGun extends Weapon{
-/**
- * 
- * esta funcion representa el impacto de la pistola en la pulga
- */
+public class PulguinpiumGun extends Weapon {
+
+    /**
+     *
+     * esta funcion representa el impacto de la pistola en la pulga
+     */
     @Override
     public void impact(Battlefield battlefield, Point punto) {
         for (Sprite s : battlefield.getSprites()) {
             if (s instanceof Flea) {
                 if (s.getBoundaries().contains(punto)) {
                     battlefield.eliminarPulga((Flea) s);
-                    battlefield.getPlayer().setPuntaje(battlefield.getPlayer().getPuntaje() + 1);
                     break;
                 }
             }
         }
-    }  
+    }
 
 }
-

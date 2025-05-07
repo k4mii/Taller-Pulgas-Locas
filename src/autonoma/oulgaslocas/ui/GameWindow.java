@@ -1,23 +1,38 @@
 package autonoma.oulgaslocas.ui;
 
 import autonoma.pulgasLocas.elements.Battlefield;
+import autonoma.pulgasLocas.elements.Score;
 import gamebase.elements.GraphicContainer;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Kamii
  */
-public class GameWindow extends javax.swing.JFrame implements GraphicContainer{
+public class GameWindow extends javax.swing.JFrame implements GraphicContainer {
+
     protected Battlefield battlefield;
+    private int maxScore = 0;
 
     /**
      * Creates new form GameWindow
      */
-    public GameWindow() {
+    public GameWindow(Battlefield battlefield) {
+        this.battlefield = battlefield;
+        setUndecorated(true);
         initComponents();
+        cargarMaximo();
+    }
+
+    public void setMaxScore(int maxScore) {
+        this.maxScore = maxScore;
+        refresh();
     }
 
     /**
@@ -28,6 +43,8 @@ public class GameWindow extends javax.swing.JFrame implements GraphicContainer{
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addMouseListener(new java.awt.event.MouseAdapter() {
@@ -41,57 +58,64 @@ public class GameWindow extends javax.swing.JFrame implements GraphicContainer{
             }
         });
 
+        jPanel1.setBackground(new java.awt.Color(123, 221, 127));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-       if(evt.getKeyCode() == KeyEvent.VK_Q)
-        {
+        if (evt.getKeyCode() == KeyEvent.VK_Q) {
             System.exit(0);
         }
-        
-        if(evt.getKeyCode() == KeyEvent.VK_UP |
-           evt.getKeyCode() == KeyEvent.VK_DOWN |
-           evt.getKeyCode() == KeyEvent.VK_LEFT |
-           evt.getKeyCode() == KeyEvent.VK_RIGHT)
-        {
-            battlefield.keyPressed(evt.getKeyCode());
-        }
-        
-        if(evt.getKeyCode() == KeyEvent.VK_SPACE)
-        {
+
+        if (evt.getKeyCode() == KeyEvent.VK_UP
+                | evt.getKeyCode() == KeyEvent.VK_DOWN
+                | evt.getKeyCode() == KeyEvent.VK_LEFT
+                | evt.getKeyCode() == KeyEvent.VK_RIGHT) {
             battlefield.keyPressed(evt.getKeyCode());
         }
 
-        if(evt.getKeyCode() == KeyEvent.VK_P)
-        {
-            battlefield.keyPressed(evt.getKeyCode());
-        }
-        
-        if(evt.getKeyCode() == KeyEvent.VK_M)
-        {
+        if (evt.getKeyCode() == KeyEvent.VK_SPACE) {
             battlefield.keyPressed(evt.getKeyCode());
         }
 
-        if(evt.getKeyCode() == KeyEvent.VK_S)
-        {
+        if (evt.getKeyCode() == KeyEvent.VK_P) {
+            battlefield.keyPressed(evt.getKeyCode());
+        }
+
+        if (evt.getKeyCode() == KeyEvent.VK_M) {
+            battlefield.keyPressed(evt.getKeyCode());
+        }
+
+        if (evt.getKeyCode() == KeyEvent.VK_S) {
             battlefield.keyPressed(evt.getKeyCode());
         }
     }//GEN-LAST:event_formKeyPressed
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-        if(evt.getButton() == java.awt.event.MouseEvent.BUTTON1) {
+        if (evt.getButton() == java.awt.event.MouseEvent.BUTTON1) {
             battlefield.getPlayer().usarArma(battlefield, evt.getPoint());
             battlefield.refresh();
         }
@@ -99,16 +123,35 @@ public class GameWindow extends javax.swing.JFrame implements GraphicContainer{
     public void setBattlefield(Battlefield battlefield) {
         this.battlefield = battlefield;
     }
-    
-    
+
+    private void cargarMaximo() {
+        try {
+            Score score = new Score("puntajes.txt");
+            ArrayList<Integer> puntajes = score.leerPuntajes();
+            if (!puntajes.isEmpty()) {
+                maxScore = Collections.max(puntajes); // Carga el puntaje máximo
+            } else {
+                maxScore = 0;  // Si no hay puntajes, el máximo es 0
+            }
+        } catch (IOException e) {
+            maxScore = 0;  // En caso de error al leer el archivo, el máximo es 0
+            JOptionPane.showMessageDialog(this, "Error al cargar el puntaje máximo: " + e.getMessage());
+        }
+    }
+
     @Override
     public void paint(Graphics g) {
-        super.paint(g); 
-    
-        if(battlefield != null)
+        super.paint(g);
+
+        if (battlefield != null) {
             battlefield.paint(g);
+            if (battlefield.getPlayer() != null) {
+                g.drawString("Puntaje: " + battlefield.getPlayer().getPuntaje(), 20, 50);
+                g.drawString("Récord: " + maxScore, 20, 70);
+            }
+        }
     }
-    
+
     @Override
     public void refresh() {
         this.repaint();
@@ -121,5 +164,6 @@ public class GameWindow extends javax.swing.JFrame implements GraphicContainer{
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

@@ -112,6 +112,10 @@ public class Player extends Sprite{
             armaActual.impact(battlefield, punto);
         }
     }
+    
+    public void aumentarPuntaje(int score){
+        this.puntaje += score;
+    }
 
     @Override
     public void paint(Graphics g) {

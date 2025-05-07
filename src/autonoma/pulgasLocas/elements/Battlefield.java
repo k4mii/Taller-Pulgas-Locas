@@ -1,5 +1,6 @@
 package autonoma.pulgasLocas.elements;
 
+import autonoma.oulgaslocas.ui.GameWindow;
 import gamebase.elements.Sprite;
 import gamebase.elements.SpriteContainer;
 import java.awt.Graphics;
@@ -9,51 +10,64 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import gamebase.elements.EscritorArchivoTextoPlano;
+import java.io.IOException;
+import java.util.Collections;
 
 /**
  * Representa el campo de batalla donde ocurre la simulación antipulgas.
- * 
- * Contiene y gestiona multiples sprites como pulgas, armas y el jugador.
- * Define sus límites y provee métodos para actualizar y pintar el campo.
- * 
+ *
+ * Contiene y gestiona multiples sprites como pulgas, armas y el jugador. Define
+ * sus límites y provee métodos para actualizar y pintar el campo.
+ *
  * Hereda de SpriteContainer.
+ *
  * @author Maria Camila Prada Cortes
  * @version 1.0.0
  * @since 2025-05-02
  */
-public  class Battlefield extends SpriteContainer{
- /**
- * Atributos
- */  
-    
-/**
- * Atributo de la instancia de la clase Player
- */  
+public class Battlefield extends SpriteContainer {
+
+    /**
+     * Atributos
+     */
+
+    /**
+     * Atributo de la instancia de la clase Player
+     */
     private Player player;
-/**
- * Atributo la lista de sprite que contiene las pulgas
- */  
+    /**
+     * Atributo la lista de sprite que contiene las pulgas
+     */
     private ArrayList<Sprite> sprites;
-    
+
     protected FleaSpawner fleaSpawner;
-/**
- * Constructor
- */  
+
+    String[] options = {"Sí", "No"};
+    
+    private EscritorArchivoTextoPlano escritor;
+    
+    private int maxScore = 0;
+
+    /**
+     * Constructor
+     */
     public Battlefield(int x, int y, int height, int width) {
         super(x, y, height, width);
         this.sprites = new ArrayList<>();
         PulguinpiumGun armaInicial = new PulguinpiumGun();
-        this.player = new Player(armaInicial, width / 2, height / 2, 50, 50); 
+        this.fleaSpawner = new FleaSpawner(this);
+        this.escritor = new EscritorArchivoTextoPlano("Score.txt");
     }
 
     public void setPlayer(Player player) {
         this.player = player;
     }
 
-    
-/**
- * Metodos de acceso
- */  
+    /**
+     * Metodos de acceso
+     */
     public Player getPlayer() {
         return player;
     }
@@ -61,13 +75,14 @@ public  class Battlefield extends SpriteContainer{
     public List<Sprite> getSprites() {
         return sprites;
     }
+
     /**
      * Metodo para agregar la pulga normal al campo de batalla
-     */ 
-    
-    public void addNormalFlea(){
+     */
+
+    public void addNormalFlea() {
         Flea f = null;
-        
+
         try {
             f = Flea.create(NormalFlea.class, width, height);
         } catch (InstantiationException ex) {
@@ -75,16 +90,17 @@ public  class Battlefield extends SpriteContainer{
         } catch (IllegalAccessException ex) {
             Logger.getLogger(Battlefield.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        sprites.add(f); 
+
+        sprites.add(f);
+        refresh();
     }
-   
-/**
- *  Metodo para agregar la pulga mutante al campo de batalla
- */ 
-   public void addMutantFlea(){
+
+    /**
+     * Metodo para agregar la pulga mutante al campo de batalla
+     */
+    public void addMutantFlea() {
         Flea f = null;
-        
+
         try {
             f = Flea.create(MutantFlea.class, width, height);
         } catch (InstantiationException ex) {
@@ -92,30 +108,86 @@ public  class Battlefield extends SpriteContainer{
         } catch (IllegalAccessException ex) {
             Logger.getLogger(Battlefield.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        sprites.add(f);      
-   }
-   
-   
 
-/**
- * Metodo para remplazar la pulga si es mutalte y esta resive un impacto este metdo sera llamado y replaza la pu;ga por una norma;
- */  
+        sprites.add(f);
+        refresh();
+    }
+
+    /**
+     * Metodo para remplazar la pulga si es mutalte y esta resive un impacto
+     * este metdo sera llamado y replaza la pu;ga por una norma;
+     */
     public void reemplazarPulga(Flea vieja, Flea nueva) {
         sprites.remove(vieja);
         sprites.add(nueva);
     }
-    
-    public void eliminarPulga(Flea pulga) {
-        sprites.remove(pulga); // o el arreglo/lista que estés usando para almacenar las pulgas
+
+public void eliminarPulga(Flea pulga) {
+    // Aumenta el puntaje del jugador por cada pulga eliminada
+    this.player.aumentarPuntaje(1);
+    sprites.remove(pulga);
+
+    // Si ya no hay pulgas en el campo de batalla
+    if (this.sprites.size() == 0) {
+        // Detenemos el generador de pulgas
+        this.fleaSpawner.stop();
+
+        // Mostramos el cuadro de diálogo para reiniciar o salir
+        int opcion = JOptionPane.showOptionDialog(
+                null,
+                "¿Quieres reiniciar la partida?",
+                "Confirmación",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]
+        );
+
+        // Si el jugador desea continuar, reiniciamos la partida
+        boolean continuar = (opcion == JOptionPane.YES_OPTION);
+        if (continuar) {
+            // Reiniciamos el puntaje y refrescamos el campo de batalla
+            this.player.setPuntaje(0);  // Reinicia el puntaje a 0
+            this.refresh();
+            this.fleaSpawner.run();  // Reanuda la generación de pulgas
+        } else {
+            // Si no desea continuar, guardamos el puntaje
+            try {
+                // Crea la instancia de Score para guardar el puntaje
+                Score score = new Score("puntajes.txt");
+                score.guardarPuntaje(player.getPuntaje());  // Guarda el puntaje actual
+
+                // Leemos todos los puntajes guardados
+                ArrayList<Integer> puntajes = score.leerPuntajes();
+
+                // Si el puntaje actual es el más alto, actualizamos el puntaje máximo
+                if (!puntajes.isEmpty()) {
+                    int nuevoMax = Collections.max(puntajes);  // Obtiene el puntaje más alto
+                    if (nuevoMax > maxScore) {  // Si el puntaje actual es mayor que el máximo
+                        maxScore = nuevoMax;
+                    }
+                }
+
+                // Actualizamos la pantalla con el nuevo puntaje máximo
+                if (gameContainer instanceof GameWindow) {
+                    ((GameWindow) gameContainer).setMaxScore(maxScore);
+                }
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, "Error al guardar puntaje: " + e.getMessage());
+            }
+        }
     }
-    
+}
+
+
     /**
-     * Metodo que recorre cada Sprite, verifica que sea de tipo Flea, si es asi, cada pulga
-     * se mueve a una nueva posicion aleatoria dentro de los limites del campo de batalla.
-     * 
+     * Metodo que recorre cada Sprite, verifica que sea de tipo Flea, si es asi,
+     * cada pulga se mueve a una nueva posicion aleatoria dentro de los limites
+     * del campo de batalla.
+     *
      */
-    public void saltarPulga(){
+    public void saltarPulga() {
         for (Sprite sprite : sprites) {
             if (sprite instanceof Flea) {
                 int nuevaX = (int) (Math.random() * (width - sprite.getWidth()));
@@ -127,63 +199,59 @@ public  class Battlefield extends SpriteContainer{
         refresh();
     }
 
-
     
+
     /**
-    *Maneja los eventos del teclado y ejecuta las acciones correspondientes
-    *Espacio (SPACE): El jugador usa el arma (pistola o misil), 'this' representa el campo de batalla actual
-    *P': Agrega una nueva pulga normal al campo de batalla.
-    *'M': Agrega una nueva pulga mutante al campo de batalla.
-    *'S': Hace que todas las pulgas salten a una nueva posición aleatoria.
-    *Flechas direccionales (opcional): Mueve al jugador (si está implementado)
+     * Maneja los eventos del teclado y ejecuta las acciones correspondientes
+     * Espacio (SPACE): El jugador usa el arma (pistola o misil), 'this'
+     * representa el campo de batalla actual P': Agrega una nueva pulga normal
+     * al campo de batalla. 'M': Agrega una nueva pulga mutante al campo de
+     * batalla. 'S': Hace que todas las pulgas salten a una nueva posición
+     * aleatoria. Flechas direccionales (opcional): Mueve al jugador (si está
+     * implementado)
      */
-    public void keyPressed(int code)
-    {
-               
+    public void keyPressed(int code) {
+
         if (code == KeyEvent.VK_SPACE) {
-            player.usarArma(this, null); 
+            player.usarArma(this, null);
         }
-        if(code == KeyEvent.VK_UP |
-                code == KeyEvent.VK_DOWN |
-                code == KeyEvent.VK_LEFT |
-                code == KeyEvent.VK_RIGHT)
-        {
+        if (code == KeyEvent.VK_UP
+                | code == KeyEvent.VK_DOWN
+                | code == KeyEvent.VK_LEFT
+                | code == KeyEvent.VK_RIGHT) {
             player.move(code);
             refresh();
         }
-        
-        if(code == KeyEvent.VK_P)
-        {
+
+        if (code == KeyEvent.VK_P) {
             addNormalFlea();
             refresh();
         }
 
-        if(code == KeyEvent.VK_M)
-        {
+        if (code == KeyEvent.VK_M) {
             addMutantFlea();
             refresh();
         }
 
-        if(code == KeyEvent.VK_S)
-        {
+        if (code == KeyEvent.VK_S) {
             saltarPulga();
             refresh();
         }
-        
+
     }
-    
+
     @Override
     public void paint(Graphics g) {
-       for (Sprite sprite : sprites) {
+        for (Sprite sprite : sprites) {
             sprite.paint(g);
         }
-        if (player != null) player.paint(g);
-     }
+    }
 
     @Override
     public void refresh() {
-        if(gameContainer != null)
+        if (gameContainer != null) {
             gameContainer.refresh();
+        }
     }
 
     @Override
