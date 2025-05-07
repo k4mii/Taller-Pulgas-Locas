@@ -150,6 +150,7 @@ public  class Battlefield extends SpriteContainer{
         if (code == KeyEvent.VK_SPACE) {
             player.setArmaActual(new FleaMissile());
             player.usarArmaMisil(this, null);
+            player.setArmaActual(new PulguinpiumGun());
         }
 
         if(code == KeyEvent.VK_UP |
