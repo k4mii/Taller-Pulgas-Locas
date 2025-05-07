@@ -1,5 +1,6 @@
 package autonoma.pulgasLocas.elements;
 
+import gamebase.elements.Sprite;
 import gamebase.elements.SpriteMobile;
 import java.awt.Point;
 
@@ -22,23 +23,38 @@ public abstract class Flea extends SpriteMobile {
     public static Flea create(Class type, int width, int height) 
             throws InstantiationException, IllegalAccessException
     {
-        int x = (int)(Math.random() * (width - Flea.WIDTH));
-        int y = (int)(Math.random() * (height - Flea.HEIGHT));
+        int x, y;
+        boolean overlaps;
+
+        do {
+            x = (int)(Math.random() * (width - Flea.WIDTH));
+            y = (int)(Math.random() * (height - Flea.HEIGHT));
+            overlaps = false;
+
+            // Verifica superposición
+            for (Sprite sprite : sprites) {
+                if (sprite instanceof Flea) {
+                    Flea flea = (Flea) sprite;
+                    if (flea.checkCollision(new Point(x, y)) || 
+                        flea.checkCollision(new Point(x + Flea.WIDTH, y)) ||
+                        flea.checkCollision(new Point(x, y + Flea.HEIGHT)) ||
+                        flea.checkCollision(new Point(x + Flea.WIDTH, y + Flea.HEIGHT))) {
+                        overlaps = true;
+                        break;
+                    }
+                }
+            }
+        } while (overlaps);
 
         Flea m = null;
-        
+
         if(type.equals(NormalFlea.class))
-            m = new NormalFlea(x, y, 
-                                Flea.WIDTH, 
-                                Flea.HEIGHT);
+            m = new NormalFlea(x, y, Flea.WIDTH, Flea.HEIGHT);
+        else if(type.equals(MutantFlea.class))
+            m = new MutantFlea(x, y, Flea.WIDTH, Flea.HEIGHT);
         else
-            if(type.equals(MutantFlea.class))
-                m = new MutantFlea(x, y, 
-                                    Flea.WIDTH, 
-                                    Flea.HEIGHT);
-            else
-                System.out.println("ERROR: Flea.create unknown type of flea");
-        
+            System.out.println("ERROR: Flea.create unknown type of flea");
+
         return m;
     } 
     /**
