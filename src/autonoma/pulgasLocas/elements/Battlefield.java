@@ -3,7 +3,9 @@ package autonoma.pulgasLocas.elements;
 import gamebase.elements.Sprite;
 import gamebase.elements.SpriteContainer;
 import java.awt.Graphics;
+import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.PointerInfo;
 import java.util.List;
 import java.util.ArrayList;
 import java.awt.Rectangle;
@@ -11,6 +13,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.SwingUtilities;
 
 /**
  * Representa el campo de batalla donde ocurre la simulación antipulgas.
@@ -143,12 +146,10 @@ public  class Battlefield extends SpriteContainer{
     *Flechas direccionales (opcional): Mueve al jugador (si está implementado)
      */
     
-    public void keyPressed(int code)
-    {
-               
+    public void keyPressed(int code){
         if (code == KeyEvent.VK_SPACE) {
-            Point punto = new Point(player.getX(), player.getY()); 
-            player.usarArmaMisil(this, punto); 
+            player.setArmaActual(new FleaMissile());
+            player.usarArmaMisil(this, null);
         }
 
         if(code == KeyEvent.VK_UP |

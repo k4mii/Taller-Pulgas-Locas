@@ -23,7 +23,7 @@ public class FleaMissile extends Weapon{
     @Override
     public void impact(Battlefield battlefield, Point punto) {
         List<Flea> todasPulgas = new ArrayList<>();
-
+        System.out.println("misil");
         for (Sprite s : battlefield.getSprites()) {
             if (s instanceof Flea) {
                 todasPulgas.add((Flea) s);
