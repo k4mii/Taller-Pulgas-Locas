@@ -92,7 +92,7 @@ public  class Battlefield extends SpriteContainer{
         Flea f = null;
         
         try {
-            f = Flea.create(MutantFlea.class, width, height);
+            f = Flea.create(MutantFlea.class, width, height,sprites);
         } catch (InstantiationException ex) {
             Logger.getLogger(Battlefield.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
