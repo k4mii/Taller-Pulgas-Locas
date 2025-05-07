@@ -75,7 +75,7 @@ public  class Battlefield extends SpriteContainer{
         Flea f = null;
         
         try {
-            f = Flea.create(NormalFlea.class, width, height);
+            f = Flea.create(NormalFlea.class, width, height,sprites);
         } catch (InstantiationException ex) {
             Logger.getLogger(Battlefield.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
@@ -160,7 +160,7 @@ public  class Battlefield extends SpriteContainer{
         }
         refresh();
 
-    
+    }
     
     /**
     *Maneja los eventos del teclado y ejecuta las acciones correspondientes
