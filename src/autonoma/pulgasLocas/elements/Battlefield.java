@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import gamebase.elements.EscritorArchivoTextoPlano;
+import gamebase.elements.LectorArchivoTextoPlano;
 import java.io.IOException;
 import java.util.Collections;
 
@@ -47,6 +48,7 @@ public class Battlefield extends SpriteContainer {
     String[] options = {"Sí", "No"};
     
     private EscritorArchivoTextoPlano escritor;
+    private LectorArchivoTextoPlano lector;
     
     private int maxScore = 0;
 
