@@ -4,10 +4,14 @@ import autonoma.oulgaslocas.ui.GameWindow;
 import gamebase.elements.Sprite;
 import gamebase.elements.SpriteContainer;
 import java.awt.Graphics;
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.PointerInfo;
 import java.util.List;
 import java.util.ArrayList;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -15,6 +19,9 @@ import gamebase.elements.EscritorArchivoTextoPlano;
 import gamebase.elements.LectorArchivoTextoPlano;
 import java.io.IOException;
 import java.util.Collections;
+
+import javax.swing.SwingUtilities;
+
 
 /**
  * Representa el campo de batalla donde ocurre la simulación antipulgas.
@@ -38,9 +45,16 @@ public class Battlefield extends SpriteContainer {
      * Atributo de la instancia de la clase Player
      */
     private Player player;
+
     /**
      * Atributo la lista de sprite que contiene las pulgas
      */
+
+
+/**
+ * Atributo la lista de sprite que contiene las pulgas
+ */  
+
     private ArrayList<Sprite> sprites;
 
     protected FleaSpawner fleaSpawner;
@@ -86,7 +100,7 @@ public class Battlefield extends SpriteContainer {
         Flea f = null;
 
         try {
-            f = Flea.create(NormalFlea.class, width, height);
+            f = Flea.create(NormalFlea.class, width, height,sprites);
         } catch (InstantiationException ex) {
             Logger.getLogger(Battlefield.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
@@ -104,12 +118,19 @@ public class Battlefield extends SpriteContainer {
         Flea f = null;
 
         try {
-            f = Flea.create(MutantFlea.class, width, height);
+            f = Flea.create(MutantFlea.class, width, height,sprites);
         } catch (InstantiationException ex) {
             Logger.getLogger(Battlefield.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
             Logger.getLogger(Battlefield.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        
+        sprites.add(f);  
+        refresh();
+   }
+   
+  
 
         sprites.add(f);
         refresh();
@@ -122,6 +143,7 @@ public class Battlefield extends SpriteContainer {
     public void reemplazarPulga(Flea vieja, Flea nueva) {
         sprites.remove(vieja);
         sprites.add(nueva);
+        refresh();
     }
 
 public void eliminarPulga(Flea pulga) {
@@ -192,15 +214,45 @@ public void eliminarPulga(Flea pulga) {
     public void saltarPulga() {
         for (Sprite sprite : sprites) {
             if (sprite instanceof Flea) {
-                int nuevaX = (int) (Math.random() * (width - sprite.getWidth()));
-                int nuevaY = (int) (Math.random() * (height - sprite.getHeight()));
-                sprite.setX(nuevaX);
-                sprite.setY(nuevaY);
+                boolean posicionValida = false;
+                int nuevaX = 0;
+                int nuevaY = 0;
+
+                for (int intentos = 0; intentos < 100; intentos++) {
+                    nuevaX = (int) (Math.random() * (width - sprite.getWidth()));
+                    nuevaY = (int) (Math.random() * (height - sprite.getHeight()));
+                    Rectangle nuevaPosicion = new Rectangle(nuevaX, nuevaY, sprite.getWidth(), sprite.getHeight());
+
+                    boolean overlap = false;
+                    for (Sprite otro : sprites) {
+                        if (otro != sprite && otro instanceof Flea) {
+                            Rectangle otraPulga = new Rectangle(otro.getX(), otro.getY(), otro.getWidth(), otro.getHeight());
+                            if (nuevaPosicion.intersects(otraPulga)) {
+                                overlap = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (!overlap) {
+                        posicionValida = true;
+                        break;
+                    }
+                }
+
+                if (posicionValida) {
+                    sprite.setX(nuevaX);
+                    sprite.setY(nuevaY);
+                }
             }
         }
         refresh();
-    }
 
+    }
+<<<<<<< HEAD
+
+=======
+>>>>>>> 4c8e5c3762f6bec3f31d0f54a6c1ce9c64e996d9
     
 
     /**
@@ -212,6 +264,7 @@ public void eliminarPulga(Flea pulga) {
      * aleatoria. Flechas direccionales (opcional): Mueve al jugador (si está
      * implementado)
      */
+<<<<<<< HEAD
     public void keyPressed(int code) {
 
         if (code == KeyEvent.VK_SPACE) {
@@ -221,6 +274,21 @@ public void eliminarPulga(Flea pulga) {
                 | code == KeyEvent.VK_DOWN
                 | code == KeyEvent.VK_LEFT
                 | code == KeyEvent.VK_RIGHT) {
+=======
+    
+    public void keyPressed(int code){
+        if (code == KeyEvent.VK_SPACE) {
+            player.setArmaActual(new FleaMissile());
+            player.usarArmaMisil(this, null);
+            player.setArmaActual(new PulguinpiumGun());
+        }
+
+        if(code == KeyEvent.VK_UP |
+                code == KeyEvent.VK_DOWN |
+                code == KeyEvent.VK_LEFT |
+                code == KeyEvent.VK_RIGHT)
+        {
+>>>>>>> 4c8e5c3762f6bec3f31d0f54a6c1ce9c64e996d9
             player.move(code);
             refresh();
         }
