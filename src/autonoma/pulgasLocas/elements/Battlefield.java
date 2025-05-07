@@ -126,16 +126,41 @@ public  class Battlefield extends SpriteContainer{
     public void saltarPulga(){
         for (Sprite sprite : sprites) {
             if (sprite instanceof Flea) {
-                int nuevaX = (int) (Math.random() * (width - sprite.getWidth()));
-                int nuevaY = (int) (Math.random() * (height - sprite.getHeight()));
-                sprite.setX(nuevaX);
-                sprite.setY(nuevaY);
+                boolean posicionValida = false;
+                int nuevaX = 0;
+                int nuevaY = 0;
+
+                for (int intentos = 0; intentos < 100; intentos++) {
+                    nuevaX = (int) (Math.random() * (width - sprite.getWidth()));
+                    nuevaY = (int) (Math.random() * (height - sprite.getHeight()));
+                    Rectangle nuevaPosicion = new Rectangle(nuevaX, nuevaY, sprite.getWidth(), sprite.getHeight());
+
+                    boolean overlap = false;
+                    for (Sprite otro : sprites) {
+                        if (otro != sprite && otro instanceof Flea) {
+                            Rectangle otraPulga = new Rectangle(otro.getX(), otro.getY(), otro.getWidth(), otro.getHeight());
+                            if (nuevaPosicion.intersects(otraPulga)) {
+                                overlap = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (!overlap) {
+                        posicionValida = true;
+                        break;
+                    }
+                }
+
+                if (posicionValida) {
+                    sprite.setX(nuevaX);
+                    sprite.setY(nuevaY);
+                }
             }
         }
-        refresh(); 
-    }
+        refresh();
 
-   
+    
     
     /**
     *Maneja los eventos del teclado y ejecuta las acciones correspondientes
