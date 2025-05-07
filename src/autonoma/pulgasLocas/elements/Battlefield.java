@@ -16,8 +16,6 @@ import gamebase.elements.LectorArchivoTextoPlano;
 import java.io.IOException;
 import java.util.Collections;
 
-
-
 /**
  * Representa el campo de batalla donde ocurre la simulación antipulgas.
  *
@@ -35,7 +33,6 @@ public class Battlefield extends SpriteContainer {
     /**
      * Atributos
      */
-
     /**
      * Atributo de la instancia de la clase Player
      */
@@ -43,17 +40,16 @@ public class Battlefield extends SpriteContainer {
 
     /**
      * Atributo la lista de sprite que contiene las pulgas
-     */  
+     */
     private ArrayList<Sprite> sprites;
 
-    
     protected FleaSpawner fleaSpawner;
 
     String[] options = {"Sí", "No"};
-    
+
     private EscritorArchivoTextoPlano escritor;
     private LectorArchivoTextoPlano lector;
-    
+
     private int maxScore = 0;
 
     /**
@@ -64,6 +60,7 @@ public class Battlefield extends SpriteContainer {
         this.sprites = new ArrayList<>();
         PulguinpiumGun armaInicial = new PulguinpiumGun();
         this.fleaSpawner = new FleaSpawner(this);
+        this.fleaSpawner.start();
         this.escritor = new EscritorArchivoTextoPlano("Score.txt");
     }
 
@@ -85,12 +82,11 @@ public class Battlefield extends SpriteContainer {
     /**
      * Metodo para agregar la pulga normal al campo de batalla
      */
-
     public void addNormalFlea() {
         Flea f = null;
 
         try {
-            f = Flea.create(NormalFlea.class, width, height,sprites);
+            f = Flea.create(NormalFlea.class, width, height, sprites);
         } catch (InstantiationException ex) {
             Logger.getLogger(Battlefield.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
@@ -108,18 +104,16 @@ public class Battlefield extends SpriteContainer {
         Flea f = null;
 
         try {
-            f = Flea.create(MutantFlea.class, width, height,sprites);
+            f = Flea.create(MutantFlea.class, width, height, sprites);
         } catch (InstantiationException ex) {
             Logger.getLogger(Battlefield.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
             Logger.getLogger(Battlefield.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        
-        sprites.add(f);  
+        sprites.add(f);
         refresh();
-   }
-   
+    }
 
     /**
      * Metodo para remplazar la pulga si es mutalte y esta resive un impacto
@@ -131,17 +125,20 @@ public class Battlefield extends SpriteContainer {
         refresh();
     }
 
-public void eliminarPulga(Flea pulga) {
-    // Aumenta el puntaje del jugador por cada pulga eliminada
-    this.player.aumentarPuntaje(1);
-    sprites.remove(pulga);
+    public void eliminarPulga(Flea pulga) {
+        // Aumenta el puntaje del jugador por cada pulga eliminada
+        this.player.aumentarPuntaje(1);
+        sprites.remove(pulga);
 
-    // Si ya no hay pulgas en el campo de batalla
-    if (this.sprites.size() == 0) {
+        // Si ya no hay pulgas en el campo de batalla, manejar el fin de partida
+        if (this.sprites.size() == 0) {
+            manejarFinDePartida();
+        }
+    }
+
+    private void manejarFinDePartida() {
         // Detenemos el generador de pulgas
         this.fleaSpawner.stop();
-
-        // Mostramos el cuadro de diálogo para reiniciar o salir
         int opcion = JOptionPane.showOptionDialog(
                 null,
                 "¿Quieres reiniciar la partida?",
@@ -153,27 +150,26 @@ public void eliminarPulga(Flea pulga) {
                 options[0]
         );
 
-        // Si el jugador desea continuar, reiniciamos la partida
         boolean continuar = (opcion == JOptionPane.YES_OPTION);
         if (continuar) {
             // Reiniciamos el puntaje y refrescamos el campo de batalla
-            this.player.setPuntaje(0);  // Reinicia el puntaje a 0
+            this.player.setPuntaje(0);
             this.refresh();
-            this.fleaSpawner.run();  // Reanuda la generación de pulgas
+            this.fleaSpawner.start();  
         } else {
-            // Si no desea continuar, guardamos el puntaje
+            JOptionPane.showMessageDialog(null, " Gracias por jugar :)" );
             try {
-                // Crea la instancia de Score para guardar el puntaje
+                // Guardamos el puntaje
                 Score score = new Score("puntajes.txt");
-                score.guardarPuntaje(player.getPuntaje());  // Guarda el puntaje actual
+                score.guardarPuntaje(player.getPuntaje());
 
                 // Leemos todos los puntajes guardados
                 ArrayList<Integer> puntajes = score.leerPuntajes();
 
                 // Si el puntaje actual es el más alto, actualizamos el puntaje máximo
                 if (!puntajes.isEmpty()) {
-                    int nuevoMax = Collections.max(puntajes);  // Obtiene el puntaje más alto
-                    if (nuevoMax > maxScore) {  // Si el puntaje actual es mayor que el máximo
+                    int nuevoMax = Collections.max(puntajes);
+                    if (nuevoMax > maxScore) {
                         maxScore = nuevoMax;
                     }
                 }
@@ -185,10 +181,10 @@ public void eliminarPulga(Flea pulga) {
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, "Error al guardar puntaje: " + e.getMessage());
             }
+            System.exit(0);
         }
+        
     }
-}
-
 
     /**
      * Metodo que recorre cada Sprite, verifica que sea de tipo Flea, si es asi,
@@ -235,8 +231,6 @@ public void eliminarPulga(Flea pulga) {
 
     }
 
-    
-
     /**
      * Maneja los eventos del teclado y ejecuta las acciones correspondientes
      * Espacio (SPACE): El jugador usa el arma (pistola o misil), 'this'
@@ -246,8 +240,7 @@ public void eliminarPulga(Flea pulga) {
      * aleatoria. Flechas direccionales (opcional): Mueve al jugador (si está
      * implementado)
      */
-
-    public void keyPressed(int code){
+    public void keyPressed(int code) {
         if (code == KeyEvent.VK_SPACE) {
             player.setArmaActual(new FleaMissile());
             player.usarArmaMisil(this, null);
