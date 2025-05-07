@@ -118,6 +118,8 @@ public class Battlefield extends SpriteContainer {
     /**
      * Metodo para remplazar la pulga si es mutalte y esta resive un impacto
      * este metdo sera llamado y replaza la pu;ga por una norma;
+     * @param vieja
+     * @param nueva
      */
     public void reemplazarPulga(Flea vieja, Flea nueva) {
         sprites.remove(vieja);
