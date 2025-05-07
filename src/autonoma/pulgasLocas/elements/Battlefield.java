@@ -4,14 +4,10 @@ import autonoma.oulgaslocas.ui.GameWindow;
 import gamebase.elements.Sprite;
 import gamebase.elements.SpriteContainer;
 import java.awt.Graphics;
-import java.awt.MouseInfo;
-import java.awt.Point;
-import java.awt.PointerInfo;
 import java.util.List;
 import java.util.ArrayList;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -20,7 +16,6 @@ import gamebase.elements.LectorArchivoTextoPlano;
 import java.io.IOException;
 import java.util.Collections;
 
-import javax.swing.SwingUtilities;
 
 
 /**
@@ -48,15 +43,10 @@ public class Battlefield extends SpriteContainer {
 
     /**
      * Atributo la lista de sprite que contiene las pulgas
-     */
-
-
-/**
- * Atributo la lista de sprite que contiene las pulgas
- */  
-
+     */  
     private ArrayList<Sprite> sprites;
 
+    
     protected FleaSpawner fleaSpawner;
 
     String[] options = {"Sí", "No"};
@@ -130,11 +120,6 @@ public class Battlefield extends SpriteContainer {
         refresh();
    }
    
-  
-
-        sprites.add(f);
-        refresh();
-    }
 
     /**
      * Metodo para remplazar la pulga si es mutalte y esta resive un impacto
@@ -249,10 +234,7 @@ public void eliminarPulga(Flea pulga) {
         refresh();
 
     }
-<<<<<<< HEAD
 
-=======
->>>>>>> 4c8e5c3762f6bec3f31d0f54a6c1ce9c64e996d9
     
 
     /**
@@ -264,35 +246,13 @@ public void eliminarPulga(Flea pulga) {
      * aleatoria. Flechas direccionales (opcional): Mueve al jugador (si está
      * implementado)
      */
-<<<<<<< HEAD
-    public void keyPressed(int code) {
 
-        if (code == KeyEvent.VK_SPACE) {
-            player.usarArma(this, null);
-        }
-        if (code == KeyEvent.VK_UP
-                | code == KeyEvent.VK_DOWN
-                | code == KeyEvent.VK_LEFT
-                | code == KeyEvent.VK_RIGHT) {
-=======
-    
     public void keyPressed(int code){
         if (code == KeyEvent.VK_SPACE) {
             player.setArmaActual(new FleaMissile());
             player.usarArmaMisil(this, null);
             player.setArmaActual(new PulguinpiumGun());
         }
-
-        if(code == KeyEvent.VK_UP |
-                code == KeyEvent.VK_DOWN |
-                code == KeyEvent.VK_LEFT |
-                code == KeyEvent.VK_RIGHT)
-        {
->>>>>>> 4c8e5c3762f6bec3f31d0f54a6c1ce9c64e996d9
-            player.move(code);
-            refresh();
-        }
-
         if (code == KeyEvent.VK_P) {
             addNormalFlea();
             refresh();

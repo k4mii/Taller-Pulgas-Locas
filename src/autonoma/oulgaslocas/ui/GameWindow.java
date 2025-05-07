@@ -4,17 +4,13 @@ import autonoma.pulgasLocas.elements.Battlefield;
 import autonoma.pulgasLocas.elements.Score;
 import gamebase.elements.GraphicContainer;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
-<<<<<<< HEAD
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import javax.swing.JOptionPane;
-=======
-import java.awt.event.MouseEvent;
->>>>>>> 4c8e5c3762f6bec3f31d0f54a6c1ce9c64e996d9
+
 
 /**
  *
@@ -94,25 +90,8 @@ public class GameWindow extends javax.swing.JFrame implements GraphicContainer {
         if (evt.getKeyCode() == KeyEvent.VK_Q) {
             System.exit(0);
         }
-
-<<<<<<< HEAD
-        if (evt.getKeyCode() == KeyEvent.VK_UP
-                | evt.getKeyCode() == KeyEvent.VK_DOWN
-                | evt.getKeyCode() == KeyEvent.VK_LEFT
-                | evt.getKeyCode() == KeyEvent.VK_RIGHT) {
-=======
-        
-        if(evt.getKeyCode() == KeyEvent.VK_UP |
-           evt.getKeyCode() == KeyEvent.VK_DOWN |
-           evt.getKeyCode() == KeyEvent.VK_LEFT |
-           evt.getKeyCode() == KeyEvent.VK_RIGHT)
-        {
-            battlefield.keyPressed(evt.getKeyCode());
-        }
-        
         if(evt.getKeyCode() == KeyEvent.VK_SPACE)
         {
->>>>>>> 4c8e5c3762f6bec3f31d0f54a6c1ce9c64e996d9
             battlefield.keyPressed(evt.getKeyCode());
         }
 
@@ -134,13 +113,9 @@ public class GameWindow extends javax.swing.JFrame implements GraphicContainer {
     }//GEN-LAST:event_formKeyPressed
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-<<<<<<< HEAD
-        if (evt.getButton() == java.awt.event.MouseEvent.BUTTON1) {
-            battlefield.getPlayer().usarArma(battlefield, evt.getPoint());
-=======
+
         if(evt.getButton() == java.awt.event.MouseEvent.BUTTON1) {
             battlefield.getPlayer().usarArmaPistola(battlefield, evt.getPoint());
->>>>>>> 4c8e5c3762f6bec3f31d0f54a6c1ce9c64e996d9
             battlefield.refresh();
         }
     }//GEN-LAST:event_formMouseClicked

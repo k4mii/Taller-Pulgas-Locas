@@ -13,14 +13,7 @@ import java.awt.Point;
  * @version 1.0.0
  * @since 2025-05-02
  */
-<<<<<<< HEAD
-public class PulguinpiumGun extends Weapon {
 
-    /**
-     *
-     * esta funcion representa el impacto de la pistola en la pulga
-     */
-    @Override
 
 public class PulguinpiumGun extends Weapon{
 /**
@@ -42,12 +35,6 @@ public class PulguinpiumGun extends Weapon{
                 } else if (s instanceof Flea) {
                     // Si es pulga normal, eliminar y sumar puntaje
                     battlefield.eliminarPulga((Flea) s);
-
-                    break;
-
-                    battlefield.getPlayer().setPuntaje(
-                        battlefield.getPlayer().getPuntaje() + 1
-                    );
 
                 }
 
